@@ -1,12 +1,42 @@
 package com.example.studentproject.management;
 
+import com.example.studentproject.db.DBConnect;
 import com.example.studentproject.dto.StudentDto;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 @Repository("StudentRepository")
 public class StudentRepositoryImpl implements StudentRepository {
+
+    @Override
+    public ArrayList<StudentDto> SelectAll(Connection conn, StudentDto dto) throws Exception {
+
+        ArrayList<StudentDto> students = new ArrayList<>();
+        StudentDto student = null;
+
+        Statement statement = conn.createStatement();
+        String sqlText = "SELECT * FROM student WHERE std_id IS NOT NULL AND std_del = false ";
+        ResultSet resultSet = statement.executeQuery(sqlText);
+
+        while (resultSet.next()){
+            student = new StudentDto();
+            student.setId(resultSet.getLong("id"));
+            student.setStd_id(resultSet.getString("std_id"));
+            student.setStd_fname(resultSet.getString("std_fname"));
+            student.setStd_lname(resultSet.getString("std_lname"));
+            student.setStd_major(resultSet.getString("std_major"));
+            student.setStd_gpa(resultSet.getFloat("std_gpa"));
+
+            students.add(student);
+        }
+
+        resultSet.close();
+        statement.close();
+
+        return students;
+    }
 
     @Override
     public boolean insertStudent(Connection conn, StudentDto dto) throws Exception {
@@ -120,7 +150,7 @@ public class StudentRepositoryImpl implements StudentRepository {
         boolean addResult = false;
         StudentDto srd = dto;
 
-
+        System.out.println(srd.getStd_id());
         String sqlText = "UPDATE student SET std_del = true WHERE std_id = ?";
         PreparedStatement preparedStatement = conn.prepareStatement(sqlText);
         preparedStatement.setString(1,srd.getStd_id());

@@ -22,11 +22,28 @@ public class StudentController {
     StudentRepository studentRepository;
 
 
-//    @GetMapping("/select")
-//    public ArrayList<String> StudentSelect() throws SQLException {
-//
-//
-//    }
+    @GetMapping("/select")
+    public ArrayList<String> StudentSelect() throws Exception {
+        DBConnect dbConnect = new DBConnect();
+        Connection connection = dbConnect.connect();
+        StudentDto std = new StudentDto();
+
+        ArrayList<StudentDto> students = studentRepository.SelectAll(connection,std);
+        ArrayList<String> strings = new ArrayList<>();
+
+        String row;
+        for(StudentDto student:students){
+            row = student.getId()+"|"+student.getStd_id()+"|"
+                    +student.getStd_fname()+"|"+student.getStd_lname()+"|"
+                    +student.getStd_major()+"|"+student.getStd_gpa();
+            strings.add(row);
+        }
+
+        connection.close();
+
+        return strings;
+
+    }
 
     @PostMapping("/insert")
     public String StudentInsert(@RequestBody StudentDto studentDto) throws Exception{
@@ -74,8 +91,9 @@ public class StudentController {
         Boolean checkked;
         String send="Delete Fail";
 
-        StudentDto studentl = new StudentDto(studentDto);
-        checkked = studentRepository.updateStudent(connection,studentl);
+        StudentDto studentl = new StudentDto();
+        studentl.setStd_id(studentDto.getStd_id());
+        checkked = studentRepository.deleteStudent(connection,studentl);
 
         if (checkked){
             send = "Delete Complete!!";
