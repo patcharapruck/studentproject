@@ -17,15 +17,15 @@ public class StudentDto {
     private float std_gpa;
     public Boolean std_del = false;
 
-    public StudentDto(String std_id){
+    public StudentDto(StudentDto dto){
 
-        this.id = id;
-        this.std_id = std_id;
-        this.std_fname = std_fname;
-        this.std_lname = std_lname;
-        this.std_major = std_major;
-        this.std_gpa = std_gpa;
-        this.std_del = std_del;
+        this.id = dto.id;
+        this.std_id = dto.std_id;
+        this.std_fname = dto.std_fname;
+        this.std_lname = dto.std_lname;
+        this.std_major = dto.std_major;
+        this.std_gpa = dto.std_gpa;
+        this.std_del = dto.std_del;
     }
 
     public Long getId(){

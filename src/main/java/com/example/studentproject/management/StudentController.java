@@ -1,6 +1,7 @@
 package com.example.studentproject.management;
 
 
+import com.example.studentproject.db.DBConnect;
 import com.example.studentproject.dto.StudentDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,9 @@ public class StudentController {
     @Autowired
     StudentService studentService;
 
+    @Autowired
+    StudentRepository studentRepository;
+
 
 //    @GetMapping("/select")
 //    public ArrayList<String> StudentSelect() throws SQLException {
@@ -24,8 +28,22 @@ public class StudentController {
 //    }
 
     @PostMapping("/insert")
-    public void StudentInsert(@RequestBody StudentDto studentDto) throws Exception{
+    public String StudentInsert(@RequestBody StudentDto studentDto) throws Exception{
+        DBConnect dbConnect = new DBConnect();
+        Connection connection = dbConnect.connect();
+        Boolean checkked;
+        String send="Insert Fail";
 
+
+        StudentDto student1 = new StudentDto(studentDto);
+        checkked = studentRepository.insertStudent(connection,student1);
+
+        if (checkked){
+            send = "Inset Complete!!";
+        }
+        connection.close();
+
+        return send;
     }
 
     @PutMapping("/update")
@@ -38,4 +56,6 @@ public class StudentController {
     public void StudentDelete(@RequestBody StudentDto studentDto) throws Exception{
 
     }
+
+
 }
