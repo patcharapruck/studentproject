@@ -1,4 +1,7 @@
 package com.example.studentproject.management;
 
-public class StudentServiceImpl {
+import org.springframework.stereotype.Repository;
+
+@Repository("StudentService")
+public class StudentServiceImpl implements StudentService {
 }
