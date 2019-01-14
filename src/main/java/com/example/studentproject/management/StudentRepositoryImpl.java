@@ -9,8 +9,9 @@ import java.sql.Connection;
 public class StudentRepositoryImpl implements StudentRepository {
 
     @Override
-    public Long insertStudent(Connection conn, StudentDto dto) throws Exception {
-        return null;
+    public String insertStudent(Connection conn, StudentDto dto) throws Exception {
+
+        return " ";
     }
 
     @Override

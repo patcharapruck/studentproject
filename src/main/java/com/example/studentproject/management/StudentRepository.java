@@ -7,7 +7,7 @@ import java.sql.Connection;
 public interface StudentRepository {
 
     // Insert , Update , Delete
-    public Long insertStudent(Connection conn, StudentDto dto) throws Exception;
+    public String insertStudent(Connection conn, StudentDto dto) throws Exception;
     public boolean updateStudent(Connection conn, StudentDto dto) throws Exception;
     public boolean deleteStudent(Connection conn, StudentDto dto) throws Exception;
 }
