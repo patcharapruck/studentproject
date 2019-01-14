@@ -96,11 +96,40 @@ public class StudentRepositoryImpl implements StudentRepository {
 
     @Override
     public boolean updateStudent(Connection conn, StudentDto dto) throws Exception {
-        return false;
+        boolean addResult = false;
+        StudentDto newStd = dto;
+
+        String sqlText = "UPDATE student SET std_fname = ?,std_lname = ?,std_major = ?,std_gpa = ? WHERE std_id = ?";
+        PreparedStatement preparedStatement = conn.prepareStatement(sqlText);
+        preparedStatement.setString(1,newStd.getStd_fname());
+        preparedStatement.setString(2,newStd.getStd_lname());
+        preparedStatement.setString(3,newStd.getStd_major());
+        preparedStatement.setFloat(4,newStd.getStd_gpa());
+        preparedStatement.setString(5,newStd.getStd_id());
+
+        if (preparedStatement.executeUpdate() == 1){
+            addResult = true;
+        }
+
+        preparedStatement.close();
+        return addResult;
     }
 
     @Override
     public boolean deleteStudent(Connection conn, StudentDto dto) throws Exception {
-        return false;
+        boolean addResult = false;
+        StudentDto srd = dto;
+
+
+        String sqlText = "UPDATE student SET std_del = true WHERE std_id = ?";
+        PreparedStatement preparedStatement = conn.prepareStatement(sqlText);
+        preparedStatement.setString(1,srd.getStd_id());
+
+        if (preparedStatement.executeUpdate() == 1){
+            addResult = true;
+        }
+
+        preparedStatement.close();
+        return addResult;
     }
 }
